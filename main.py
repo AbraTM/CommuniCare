@@ -83,43 +83,50 @@ def generateNewsletter(gemini_api_key, news_data, city_name="Delhi"):
         Each article snippet has a Title, Description, Source, Publication Date, and URL. You **do NOT have access to the full article content**, so make your assessment based solely on the provided Title and Description.
 
         **Your Task:**
-        1.  Carefully read through each provided article snippet.
-        2.  Identify if any article describes a **notable, urgent, or emerging public health issue** relevant to {city_name} or its residents, according to the criteria above.
-        3.  **If you find ONE or more notable health issues:**
-            * Generate a concise, informative summary in **beautiful Markdown format**, suitable for direct inclusion in an email body.
-            * The summary should be friendly, easy to read, and actionable.
-            * **Start with a friendly greeting:** "Hello there!" or "Good morning/afternoon/evening!"
-            * **Suggest an email subject line** on the first line, formatted as: `Subject: [Your Suggested Subject Line]`
-            * Use a clear, bold heading: `## Local Health Update for {city_name}`.
-            * For each notable issue, provide a brief, **one-sentence summary** of the issue, followed by a direct link to the article.
-            * Use Markdown bullet points (`* `) for each issue.
-            * Add a horizontal rule (`---`) for visual separation before the closing.
-            * Conclude with a friendly closing: "Stay informed and well! Your Local Health Monitor."
-        4.  **If you find NO notable health issues after reviewing ALL articles:**
-            * Respond with the exact phrase: "No notable health issues detected today for {city_name}."
-            * Do NOT generate any other text or Markdown if there are no issues.
+        1. Carefully read through each provided article snippet.
+        2. Identify if any article describes a **notable, urgent, or emerging public health issue** relevant to {city_name} or its residents, according to the criteria above.
+        3. **If you find ONE or more notable health issues:**
+        - Generate a concise, informative summary in **clean HTML format** suitable for direct inclusion in an email body.
+        - The summary should be friendly, easy to read, and visually appealing.
+        - **Structure the email content as follows:**
+            * Begin with a <p> greeting like "Hello there!" or "Good morning/afternoon/evening!"
+            * Use a <h2> heading for the suggested subject line, starting with "Subject: [Your Suggested Subject Line]"
+            * Add another <h3> heading: "Local Health Update for {city_name}"
+            * For each notable issue, create a <ul> list:
+            - Each item should contain a <strong> one-sentence summary </strong> and a clickable <a> link to the article.
+            * Use a horizontal rule <hr> for separation before the closing.
+            * Conclude with a <p> friendly closing message: "Stay informed and well! Your Local Health Monitor."
+        - **Only output valid HTML without any Markdown.**
+        4. **If you find NO notable health issues after reviewing ALL articles:**
+        - Respond with exactly:
+            ```html
+            <p>No notable health issues detected today for {city_name}.</p>
+            ```
 
-        **Example of desired output (if issues are found):**
-        ```markdown
-        Subject: Urgent: Local Health Update for {city_name}
+        **Example of desired HTML output (if issues are found):**
 
-        Hello there!
-
-        Here's a quick summary of today's important health news in {city_name}:
-
-        * **[Brief, one-sentence summary of Issue 1].** Read more: [Link to Article 1]
-        * **[Brief, one-sentence summary of Issue 2].** Read more: [Link to Article 2]
-        * **[Brief, one-sentence summary of Issue 3].** Read more: [Link to Article 3]
-
-        ---
-        Stay informed and well! Your Local Health Monitor.
+        ```html
+        <h2>Subject: Important Health Update for {city_name}</h2>
+        <p>Hello there!</p>
+        <h3>Local Health Update for {city_name}</h3>
+        <ul>
+        <li><strong>Experts in New Delhi warn about rising dengue cases amid monsoon season.</strong> <a href="https://example.com/article1">Read more</a></li>
+        <li><strong>Air quality in Delhi has deteriorated, prompting health advisories for sensitive groups.</strong> <a href="https://example.com/article2">Read more</a></li>
+        </ul>
+        <hr>
+        <p>Stay informed and well! Your Local Health Monitor.</p>
         ```
 
-        **Example of desired output (if NO issues are found):**
-        `No notable health issues detected today for {city_name}.`
+        **Example of desired output if NO issues are found:**
+
+        ```html
+        <p>No notable health issues detected today for {city_name}.</p>
+        ```
 
         ---
+
         **News Data for Analysis:**
+
         {news_data}
     """
     response = LLM.generate_content(prompt)
