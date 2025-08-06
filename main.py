@@ -63,72 +63,67 @@ def generateNewsletter(gemini_api_key, news_data, city_name="Delhi"):
         You are an AI-powered Local Health Monitor for the city of {city_name}.
         Your primary task is to review the provided news articles and identify any **notable, urgent, or emerging public health issues or warnings** specific to {city_name} or India that would be important for a local resident to know.
 
-        **Examples of notable health issues you should report:**
+        Examples of notable health issues you should report:
         - Disease outbreaks (e.g., flu, dengue, cholera, measles, COVID-19 spikes).
         - Significant changes in air quality, pollution warnings, or environmental health hazards.
         - Public health advisories, warnings, or new guidelines from official health organizations.
-        - Localized health emergencies, significant hospital news directly impacting residents' health (e.g., hospital capacity alerts).
+        - Localized health emergencies, significant hospital news directly impacting residents' health.
         - Warnings about contaminated food or water.
         - Information about new local health initiatives, vaccination drives, or free health camps that are critical for public awareness.
         - Alerts about specific health risks (e.g., heatstroke warnings, monsoon-related diseases).
 
-        **Examples of what is NOT a notable health issue for this report (do NOT include these):**
+        Examples of what is NOT a notable health issue for this report (do NOT include these):
         - General national political news.
         - Broad economic news.
-        - General medical research findings that are not localized or urgent for immediate public action.
-        - Sports or entertainment news, or general lifestyle advice.
-        - News about hospital administration or internal policy changes that don't directly impact patient care or public health.
+        - General medical research findings not localized or urgent.
+        - Sports, entertainment news, or lifestyle advice.
+        - News about hospital administration or internal policy changes that don’t affect public health directly.
 
-        **Input News Articles for Analysis:**
-        Each article snippet has a Title, Description, Source, Publication Date, and URL. You **do NOT have access to the full article content**, so make your assessment based solely on the provided Title and Description.
+        Input News Articles:
+        Each article snippet includes Title, Description, Source, Date, and URL. You do NOT have access to the full article.
 
-        **Your Task:**
-        1. Carefully read through each provided article snippet.
-        2. Identify if any article describes a **notable, urgent, or emerging public health issue** relevant to {city_name} or its residents, according to the criteria above.
-        3. **If you find ONE or more notable health issues:**
-        - Generate a concise, informative summary in **clean HTML format** suitable for direct inclusion in an email body.
-        - The summary should be friendly, easy to read, and visually appealing.
-        - **Structure the email content as follows:**
-            * Begin with a <p> greeting like "Hello there!" or "Good morning/afternoon/evening!"
-            * Use a <h2> heading for the suggested subject line, starting with "Subject: [Your Suggested Subject Line]"
-            * Add another <h3> heading: "Local Health Update for {city_name}"
-            * For each notable issue, create a <ul> list:
-            - Each item should contain a <strong> one-sentence summary </strong> and a clickable <a> link to the article.
-            * Use a horizontal rule <hr> for separation before the closing.
-            * Conclude with a <p> friendly closing message: "Stay informed and well! Your Local Health Monitor."
-        - **Only output valid HTML without any Markdown.**
-        4. **If you find NO notable health issues after reviewing ALL articles:**
-        - Respond with exactly:
-            ```html
-            <p>No notable health issues detected today for {city_name}.</p>
-            ```
+        Your Task:
+        1. Carefully analyze each article.
+        2. Identify whether it reports a notable or urgent public health issue for residents of {city_name}.
+        3. If you find one or more notable issues:
+        - Write a **friendly, informative plain-text email summary**.
+        - Start with a greeting like: "Hello there!" or "Good morning!"
+        - Include a suggested subject line: "Subject: Important Health Update for {city_name}"
+        - Use a clear section heading: "Local Health Update for {city_name}"
+        - Then list each issue using bullet points.
+            Each bullet should be one concise sentence explaining the issue, followed by the article URL in parentheses.
+        - End the email with a warm, friendly closing: "Stay informed and well! – Your Local Health Monitor"
 
-        **Example of desired HTML output (if issues are found):**
+        4. If NO notable health issues are found:
+        Respond exactly with this plain text:
+        "No notable health issues detected today for {city_name}."
 
-        ```html
-        <h2>Subject: Important Health Update for {city_name}</h2>
-        <p>Hello there!</p>
-        <h3>Local Health Update for {city_name}</h3>
-        <ul>
-        <li><strong>Experts in New Delhi warn about rising dengue cases amid monsoon season.</strong> <a href="https://example.com/article1">Read more</a></li>
-        <li><strong>Air quality in Delhi has deteriorated, prompting health advisories for sensitive groups.</strong> <a href="https://example.com/article2">Read more</a></li>
-        </ul>
-        <hr>
-        <p>Stay informed and well! Your Local Health Monitor.</p>
-        ```
-
-        **Example of desired output if NO issues are found:**
-
-        ```html
-        <p>No notable health issues detected today for {city_name}.</p>
-        ```
-        ⚠️ IMPORTANT: Output only raw, unescaped HTML. Do NOT wrap it in <html>, <head>, <body>, or <div> tags. Do NOT escape HTML tags. Return valid HTML starting directly with <p>, <h2>, <ul>, etc.
         ---
 
-        **News Data for Analysis:**
+        Example of desired output if issues are found:
 
+        Subject: Important Health Update for Delhi
+
+        Hello there!
+
+        Local Health Update for Delhi:
+
+        • Experts in New Delhi warn about rising dengue cases amid the monsoon season. (https://example.com/article1)
+        • Air quality in Delhi has worsened, prompting health advisories for vulnerable groups. (https://example.com/article2)
+
+        Stay informed and well! – Your Local Health Monitor
+
+        ---
+
+        Example if NO issues are found:
+        No notable health issues detected today for Delhi.
+
+        ---
+
+        News Data for Analysis:
         {news_data}
     """
+
     response = LLM.generate_content(prompt)
     return response.text
 
