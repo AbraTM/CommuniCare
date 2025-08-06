@@ -122,7 +122,7 @@ def generateNewsletter(gemini_api_key, news_data, city_name="Delhi"):
         ```html
         <p>No notable health issues detected today for {city_name}.</p>
         ```
-
+        ⚠️ IMPORTANT: Output only raw, unescaped HTML. Do NOT wrap it in <html>, <head>, <body>, or <div> tags. Do NOT escape HTML tags. Return valid HTML starting directly with <p>, <h2>, <ul>, etc.
         ---
 
         **News Data for Analysis:**
